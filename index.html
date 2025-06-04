@@ -6,132 +6,88 @@
     <title>People Team AI Dashboard</title>
     <link rel="stylesheet" href="styles.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/js/all.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
     <div class="container">
-        <!-- Hero Section with Summary Metrics -->
         <div class="hero-section">
-            <h1>People Team AI Dashboard</h1>
+            <div class="hero-content">
+                <h1>People Team AI Dashboard</h1>
+                <p>Track and monitor AI initiatives across the People team</p>
+                <div class="hero-stats">
+                    <div class="stat-item">
+                        <i class="fas fa-robot"></i>
+                        <span class="stat-number" id="projectCount">0</span>
+                        <span class="stat-label">Active Projects</span>
+                    </div>
+                    <div class="stat-item">
+                        <i class="fas fa-clock"></i>
+                        <span class="stat-number" id="hoursSaved">0</span>
+                        <span class="stat-label">Hours Saved Monthly</span>
+                    </div>
+                    <div class="stat-item">
+                        <i class="fas fa-ticket-alt"></i>
+                        <span class="stat-number" id="ticketsEliminated">0</span>
+                        <span class="stat-label">Tickets Eliminated Monthly</span>
+                    </div>
+                    <div class="stat-item">
+                        <i class="fas fa-chart-line"></i>
+                        <span class="stat-number" id="processAutomation">0</span>
+                        <span class="stat-label">Processes Automated</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="dashboard">
             <div class="metrics-grid">
                 <div class="metric-card">
-                    <i class="fas fa-robot"></i>
-                    <h3>Total Projects</h3>
-                    <div class="metric-value" id="totalProjects">0</div>
+                    <h3>Project Status</h3>
+                    <canvas id="statusChart"></canvas>
                 </div>
                 <div class="metric-card">
-                    <i class="fas fa-clock"></i>
-                    <h3>Hours Saved</h3>
-                    <div class="metric-value" id="hoursSaved">0</div>
+                    <h3>DSL Distribution</h3>
+                    <canvas id="dslChart"></canvas>
                 </div>
                 <div class="metric-card">
-                    <i class="fas fa-ticket-alt"></i>
-                    <h3>Tickets Eliminated</h3>
-                    <div class="metric-value" id="ticketsEliminated">0</div>
-                </div>
-                <div class="metric-card">
-                    <i class="fas fa-chart-line"></i>
-                    <h3>Process Automation</h3>
-                    <div class="metric-value" id="processAutomation">0%</div>
+                    <h3>Domain Distribution</h3>
+                    <canvas id="domainChart"></canvas>
                 </div>
             </div>
         </div>
 
-        <!-- Charts Section -->
-        <div class="charts-section">
-            <div class="chart-container">
-                <h3>Project Status</h3>
-                <canvas id="statusChart"></canvas>
-            </div>
-            <div class="chart-container">
-                <h3>Domain Distribution</h3>
-                <canvas id="domainChart"></canvas>
-            </div>
-        </div>
-
-        <!-- Filters Section -->
         <div class="filters-section">
             <div class="filter-group">
-                <select id="statusFilter">
+                <select id="statusFilter" onchange="filterProjects()">
                     <option value="">All Statuses</option>
-                    <option value="in-progress">In Progress</option>
-                    <option value="not-started">Not Started</option>
-                    <option value="launched">Launched</option>
-                    <option value="on-hold">On Hold</option>
-                    <option value="completed">Completed</option>
+                    <option value="Not Started">Not Started</option>
+                    <option value="In Progress">In Progress</option>
+                    <option value="Completed">Completed</option>
+                    <option value="On Hold">On Hold</option>
                 </select>
-                <select id="domainFilter">
+                <select id="domainFilter" onchange="filterProjects()">
                     <option value="">All Domains</option>
-                    <option value="recruiting">Recruiting</option>
-                    <option value="onboarding">Onboarding</option>
-                    <option value="ess-mss">ESS/MSS</option>
-                    <option value="performance">Performance</option>
-                    <option value="career">Career Development</option>
-                    <option value="compensation">Compensation</option>
-                    <option value="analytics">Analytics</option>
+                    <option value="Recruiting">Recruiting</option>
+                    <option value="Learning">Learning</option>
+                    <option value="Analytics">Analytics</option>
+                    <option value="HR Operations">HR Operations</option>
+                    <option value="Employee Experience">Employee Experience</option>
                 </select>
-                <button onclick="showAddProjectModal()" class="add-project-btn">
+                <select id="dslFilter" onchange="filterProjects()">
+                    <option value="">All DSL Levels</option>
+                    <option value="DSL1">DSL1</option>
+                    <option value="DSL2">DSL2</option>
+                    <option value="DSL3">DSL3</option>
+                    <option value="DSL4">DSL4</option>
+                </select>
+                <button onclick="window.location.href='https://github.com/shawnc-ai/people-team-ai-board/issues/new?template=ai-project-submission.yml'" class="add-project-btn">
                     <i class="fas fa-plus"></i> Add Project
                 </button>
             </div>
         </div>
 
-        <!-- Projects Grid -->
-        <div class="projects-grid" id="projectsGrid">
+        <div id="projectGrid" class="project-grid">
             <!-- Projects will be dynamically inserted here -->
-        </div>
-
-        <!-- Add/Edit Project Modal -->
-        <div id="projectModal" class="modal">
-            <div class="modal-content">
-                <span class="close">&times;</span>
-                <h2>Add/Edit Project</h2>
-                <form id="projectForm">
-                    <div class="form-group">
-                        <label>Project Name</label>
-                        <input type="text" name="name" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Domain</label>
-                        <select name="domain" required>
-                            <option value="recruiting">Recruiting</option>
-                            <option value="onboarding">Onboarding</option>
-                            <option value="ess-mss">ESS/MSS</option>
-                            <option value="performance">Performance</option>
-                            <option value="career">Career Development</option>
-                            <option value="compensation">Compensation</option>
-                            <option value="analytics">Analytics</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>Status</label>
-                        <select name="status" required>
-                            <option value="in-progress">In Progress</option>
-                            <option value="not-started">Not Started</option>
-                            <option value="launched">Launched</option>
-                            <option value="on-hold">On Hold</option>
-                            <option value="completed">Completed</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>Description</label>
-                        <textarea name="description" required></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label>Hours Saved (Monthly)</label>
-                        <input type="number" name="hoursSaved" min="0">
-                    </div>
-                    <div class="form-group">
-                        <label>Tickets Eliminated (Monthly)</label>
-                        <input type="number" name="ticketsEliminated" min="0">
-                    </div>
-                    <div class="form-group">
-                        <label>Process Automation (%)</label>
-                        <input type="number" name="processAutomation" min="0" max="100">
-                    </div>
-                    <button type="submit">Save Project</button>
-                </form>
-            </div>
         </div>
     </div>
     <script src="app.js"></script>
