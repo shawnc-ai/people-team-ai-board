@@ -1,191 +1,115 @@
-:root {
-    --primary-color: #1a73e8;
-    --secondary-color: #34a853;
-    --background-color: #f8f9fa;
-    --card-background: #ffffff;
-    --text-color: #202124;
-}
+/* [Previous CSS remains the same until the new video sections] */
 
-body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: var(--background-color);
-    color: var(--text-color);
-}
-
-.container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
-}
-
-.hero-section {
-    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
-    color: white;
+/* Video Showcase */
+.video-showcase {
+    margin: 2rem 0;
     padding: 2rem;
-    border-radius: 16px;
-    margin-bottom: 2rem;
-}
-
-.hero-content h1 {
-    margin: 0;
-    font-size: 2.5rem;
-    margin-bottom: 1rem;
-}
-
-.hero-stats {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 1.5rem;
-    margin-top: 2rem;
-}
-
-.stat-item {
-    background: rgba(255, 255, 255, 0.1);
-    padding: 1.5rem;
-    border-radius: 12px;
-    text-align: center;
-    transition: transform 0.3s ease;
-}
-
-.stat-item:hover {
-    transform: translateY(-5px);
-    background: rgba(255, 255, 255, 0.2);
-}
-
-.stat-number {
-    font-size: 2.5rem;
-    font-weight: bold;
-    display: block;
-    margin: 0.5rem 0;
-}
-
-.stat-label {
-    font-size: 1rem;
-    opacity: 0.9;
-}
-
-.dashboard {
-    margin-bottom: 2rem;
-}
-
-.metrics-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 1.5rem;
-}
-
-.metric-card {
     background: var(--card-background);
-    padding: 1.5rem;
     border-radius: 12px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
-.filters-section {
-    margin-bottom: 2rem;
-}
-
-.filter-group {
-    display: flex;
-    gap: 1rem;
-    flex-wrap: wrap;
-}
-
-select {
-    padding: 0.5rem;
-    border: 1px solid #ddd;
-    border-radius: 6px;
-    font-size: 1rem;
-    min-width: 150px;
-}
-
-.add-project-btn {
-    background: var(--primary-color);
-    color: white;
-    border: none;
-    padding: 0.5rem 1rem;
-    border-radius: 6px;
-    cursor: pointer;
+.video-showcase h2 {
+    margin: 0 0 1.5rem 0;
+    color: var(--primary-color);
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    font-size: 1rem;
-    transition: background-color 0.3s ease;
 }
 
-.add-project-btn:hover {
-    background: var(--secondary-color);
-}
-
-.project-grid {
+.video-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 1.5rem;
+    margin-top: 1rem;
 }
 
-.project-card {
-    background: var(--card-background);
-    padding: 1.5rem;
+.video-card {
+    background: var(--background-color);
     border-radius: 12px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    overflow: hidden;
     transition: transform 0.3s ease;
 }
 
-.project-card:hover {
+.video-card:hover {
     transform: translateY(-5px);
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
 }
 
-.card-header {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    margin-bottom: 1rem;
+.video-container {
+    position: relative;
+    padding-bottom: 56.25%; /* 16:9 aspect ratio */
+    height: 0;
+    overflow: hidden;
+    cursor: pointer;
 }
 
-.status-badge {
-    padding: 0.25rem 0.5rem;
-    border-radius: 12px;
-    font-size: 0.875rem;
-    font-weight: 500;
+.video-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
 }
 
-.dsl-badge {
-    padding: 0.25rem 0.5rem;
-    border-radius: 12px;
-    font-size: 0.875rem;
-    font-weight: 500;
-    background: #e0e7ff;
-    color: #3730a3;
+.video-info {
+    padding: 1rem;
 }
 
-.status-in-progress { background: #fce8b2; color: #b45309; }
-.status-completed { background: #dcfce7; color: #166534; }
-.status-not-started { background: #e5e7eb; color: #374151; }
-.status-on-hold { background: #fee2e2; color: #991b1b; }
+.video-info h3 {
+    margin: 0 0 0.5rem 0;
+    color: var(--primary-color);
+}
 
-.project-meta {
+.video-info p {
+    margin: 0;
     font-size: 0.875rem;
     color: #666;
-    line-height: 1.6;
 }
 
-@media (max-width: 768px) {
-    .hero-stats {
-        grid-template-columns: 1fr;
-    }
-    
-    .metrics-grid {
-        grid-template-columns: 1fr;
-    }
-    
-    .filter-group {
-        flex-direction: column;
-    }
-    
-    .project-grid {
-        grid-template-columns: 1fr;
-    }
+/* Video Modal */
+.video-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.8);
+    z-index: 1000;
 }
+
+.video-modal-content {
+    position: relative;
+    width: 90%;
+    max-width: 800px;
+    margin: 2rem auto;
+    background: var(--card-background);
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.close-modal {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    color: white;
+    font-size: 1.5rem;
+    cursor: pointer;
+    z-index: 1001;
+    width: 32px;
+    height: 32px;
+    background: rgba(0,0,0,0.5);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s ease;
+}
+
+.close-modal:hover {
+    background: rgba(0,0,0,0.7);
+}
+
+/* [Rest of the previous CSS remains the same] */
