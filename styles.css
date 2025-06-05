@@ -15,11 +15,12 @@ body {
 }
 
 .container {
-    max-width: 1200px;
+    max-width: 1400px;  /* Increased to accommodate two cards */
     margin: 0 auto;
     padding: 20px;
 }
 
+/* Hero Section */
 .hero-section {
     background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
     color: white;
@@ -28,52 +29,26 @@ body {
     margin-bottom: 2rem;
 }
 
-.hero-content h1 {
-    margin: 0;
-    font-size: 2.5rem;
-    margin-bottom: 1rem;
-}
-
 .hero-stats {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 1.5rem;
+    gap: 1rem;
     margin-top: 2rem;
 }
 
 .stat-item {
     background: rgba(255, 255, 255, 0.1);
-    padding: 1.5rem;
+    padding: 1rem;
     border-radius: 12px;
     text-align: center;
-    transition: transform 0.3s ease;
 }
 
-.stat-item:hover {
-    transform: translateY(-5px);
-    background: rgba(255, 255, 255, 0.2);
-}
-
-.stat-number {
-    font-size: 2.5rem;
-    font-weight: bold;
-    display: block;
-    margin: 0.5rem 0;
-}
-
-.stat-label {
-    font-size: 1rem;
-    opacity: 0.9;
-}
-
-.dashboard {
-    margin-bottom: 2rem;
-}
-
+/* Dashboard */
 .metrics-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 1.5rem;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2rem;
 }
 
 .metric-card {
@@ -83,8 +58,9 @@ body {
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
+/* Filters */
 .filters-section {
-    margin-bottom: 2rem;
+    margin-bottom: 1.5rem;
 }
 
 .filter-group {
@@ -97,8 +73,7 @@ select {
     padding: 0.5rem;
     border: 1px solid #ddd;
     border-radius: 6px;
-    font-size: 1rem;
-    min-width: 150px;
+    font-size: 0.9rem;
 }
 
 .add-project-btn {
@@ -111,26 +86,22 @@ select {
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    font-size: 1rem;
-    transition: background-color 0.3s ease;
 }
 
-.add-project-btn:hover {
-    background: var(--secondary-color);
-}
-
+/* Project Grid - Updated for smaller cards */
 .project-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 1.5rem;
+    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr)); /* Adjusted size */
+    gap: 1rem;
 }
 
 .project-card {
     background: var(--card-background);
-    padding: 1.5rem;
+    padding: 1rem;
     border-radius: 12px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     transition: transform 0.3s ease;
+    font-size: 0.9rem; /* Smaller text */
 }
 
 .project-card:hover {
@@ -142,50 +113,62 @@ select {
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    margin-bottom: 1rem;
+    margin-bottom: 0.75rem;
 }
 
 .status-badge {
     padding: 0.25rem 0.5rem;
     border-radius: 12px;
-    font-size: 0.875rem;
+    font-size: 0.75rem;
     font-weight: 500;
 }
 
 .dsl-badge {
     padding: 0.25rem 0.5rem;
     border-radius: 12px;
-    font-size: 0.875rem;
-    font-weight: 500;
+    font-size: 0.75rem;
     background: #e0e7ff;
     color: #3730a3;
 }
 
+.project-meta {
+    font-size: 0.85rem;
+    color: #666;
+    line-height: 1.4;
+}
+
+.project-meta p {
+    margin: 0.5rem 0;
+}
+
+.project-meta ul {
+    margin: 0.5rem 0;
+    padding-left: 1.25rem;
+}
+
+/* Status Colors */
 .status-in-progress { background: #fce8b2; color: #b45309; }
 .status-completed { background: #dcfce7; color: #166534; }
 .status-not-started { background: #e5e7eb; color: #374151; }
 .status-on-hold { background: #fee2e2; color: #991b1b; }
 
-.project-meta {
-    font-size: 0.875rem;
-    color: #666;
-    line-height: 1.6;
-}
-
-@media (max-width: 768px) {
-    .hero-stats {
-        grid-template-columns: 1fr;
-    }
-    
-    .metrics-grid {
-        grid-template-columns: 1fr;
+/* Responsive Design */
+@media (max-width: 900px) {
+    .project-grid {
+        grid-template-columns: 1fr; /* Single column on smaller screens */
     }
     
     .filter-group {
         flex-direction: column;
     }
     
-    .project-grid {
+    .hero-stats {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (max-width: 600px) {
+    .hero-stats {
         grid-template-columns: 1fr;
     }
 }
