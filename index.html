@@ -80,7 +80,7 @@
                     <option value="DSL3">DSL3</option>
                     <option value="DSL4">DSL4</option>
                 </select>
-                <button onclick="window.location.href='https://github.com/shawnc-ai/people-team-ai-board/issues/new?template=ai-project-submission.yml'" class="add-project-btn">
+                <button onclick="openModal()" class="add-project-btn">
                     <i class="fas fa-plus"></i> Add Project
                 </button>
             </div>
@@ -90,6 +90,92 @@
             <!-- Projects will be dynamically inserted here -->
         </div>
     </div>
+
+    <!-- Add Project Modal -->
+    <div id="addProjectModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2>Add New AI Project</h2>
+            <form id="addProjectForm">
+                <div class="form-group">
+                    <label for="projectName">Project Name*</label>
+                    <input type="text" id="projectName" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="projectStatus">Status*</label>
+                    <select id="projectStatus" required>
+                        <option value="Not Started">Not Started</option>
+                        <option value="In Progress">In Progress</option>
+                        <option value="Completed">Completed</option>
+                        <option value="On Hold">On Hold</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="projectDomain">Domain*</label>
+                    <select id="projectDomain" required>
+                        <option value="Recruiting">Recruiting</option>
+                        <option value="Performance">Performance</option>
+                        <option value="Knowledge Management">Knowledge Management</option>
+                        <option value="ESS/MSS">ESS/MSS</option>
+                        <option value="Analytics">Analytics</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="projectDSL">DSL Level*</label>
+                    <select id="projectDSL" required>
+                        <option value="DSL1">DSL1</option>
+                        <option value="DSL2">DSL2</option>
+                        <option value="DSL3">DSL3</option>
+                        <option value="DSL4">DSL4</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="projectOwner">Project Owner*</label>
+                    <input type="text" id="projectOwner" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="projectTeam">Team*</label>
+                    <input type="text" id="projectTeam" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="projectDescription">Description*</label>
+                    <textarea id="projectDescription" required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="hoursSaved">Hours Saved (Monthly)</label>
+                    <input type="number" id="hoursSaved" min="0">
+                </div>
+
+                <div class="form-group">
+                    <label for="ticketsEliminated">Tickets Eliminated (Monthly)</label>
+                    <input type="number" id="ticketsEliminated" min="0">
+                </div>
+
+                <div class="form-group">
+                    <label for="processAutomation">Process Automation (%)</label>
+                    <input type="number" id="processAutomation" min="0" max="100">
+                </div>
+
+                <div class="form-group">
+                    <label for="techStack">Tech Stack</label>
+                    <input type="text" id="techStack" placeholder="e.g., GPT-4, Azure AI, Custom ML">
+                </div>
+
+                <div class="form-buttons">
+                    <button type="submit" class="submit-btn">Add Project</button>
+                    <button type="button" class="cancel-btn" onclick="closeModal()">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <script src="app.js"></script>
 </body>
 </html>
