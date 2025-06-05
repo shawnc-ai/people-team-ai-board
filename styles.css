@@ -15,7 +15,7 @@ body {
 }
 
 .container {
-    max-width: 1400px;  /* Increased to accommodate two cards */
+    max-width: 1400px;
     margin: 0 auto;
     padding: 20px;
 }
@@ -29,79 +29,50 @@ body {
     margin-bottom: 2rem;
 }
 
+.hero-content h1 {
+    margin: 0;
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
 .hero-stats {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 1rem;
+    gap: 1.5rem;
     margin-top: 2rem;
 }
 
 .stat-item {
     background: rgba(255, 255, 255, 0.1);
-    padding: 1rem;
-    border-radius: 12px;
-    text-align: center;
-}
-
-/* Dashboard */
-.metrics-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 1rem;
-    margin-bottom: 2rem;
-}
-
-.metric-card {
-    background: var(--card-background);
     padding: 1.5rem;
     border-radius: 12px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    text-align: center;
+    transition: transform 0.3s ease;
 }
 
-/* Filters */
-.filters-section {
-    margin-bottom: 1.5rem;
+.stat-item:hover {
+    transform: translateY(-5px);
 }
 
-.filter-group {
-    display: flex;
-    gap: 1rem;
-    flex-wrap: wrap;
+.stat-number {
+    font-size: 2.5rem;
+    font-weight: bold;
+    display: block;
 }
 
-select {
-    padding: 0.5rem;
-    border: 1px solid #ddd;
-    border-radius: 6px;
-    font-size: 0.9rem;
-}
-
-.add-project-btn {
-    background: var(--primary-color);
-    color: white;
-    border: none;
-    padding: 0.5rem 1rem;
-    border-radius: 6px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-}
-
-/* Project Grid - Updated for smaller cards */
+/* Project Cards */
 .project-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr)); /* Adjusted size */
-    gap: 1rem;
+    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+    gap: 1.5rem;
 }
 
 .project-card {
     background: var(--card-background);
-    padding: 1rem;
+    padding: 1.5rem;
     border-radius: 12px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     transition: transform 0.3s ease;
-    font-size: 0.9rem; /* Smaller text */
 }
 
 .project-card:hover {
@@ -112,38 +83,77 @@ select {
 .card-header {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
-    margin-bottom: 0.75rem;
+    justify-content: space-between;
+    margin-bottom: 1rem;
 }
 
 .status-badge {
-    padding: 0.25rem 0.5rem;
+    padding: 0.25rem 0.75rem;
     border-radius: 12px;
-    font-size: 0.75rem;
+    font-size: 0.875rem;
     font-weight: 500;
 }
 
 .dsl-badge {
-    padding: 0.25rem 0.5rem;
+    padding: 0.25rem 0.75rem;
     border-radius: 12px;
-    font-size: 0.75rem;
+    font-size: 0.875rem;
     background: #e0e7ff;
     color: #3730a3;
 }
 
+.domain-badge {
+    padding: 0.25rem 0.75rem;
+    border-radius: 12px;
+    font-size: 0.875rem;
+    background: #f3e8ff;
+    color: #6b21a8;
+}
+
+.project-title {
+    font-size: 1.25rem;
+    color: var(--primary-color);
+    margin: 0.5rem 0;
+    text-decoration: none;
+}
+
+.project-title:hover {
+    text-decoration: underline;
+}
+
 .project-meta {
-    font-size: 0.85rem;
+    font-size: 0.875rem;
     color: #666;
-    line-height: 1.4;
+    line-height: 1.6;
 }
 
 .project-meta p {
     margin: 0.5rem 0;
 }
 
-.project-meta ul {
-    margin: 0.5rem 0;
-    padding-left: 1.25rem;
+.metrics-grid {
+    margin-top: 1rem;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+}
+
+.metric-item {
+    text-align: center;
+    padding: 0.5rem;
+    background: #f8f9fa;
+    border-radius: 8px;
+}
+
+.metric-label {
+    font-size: 0.75rem;
+    color: #666;
+}
+
+.metric-value {
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: var(--primary-color);
 }
 
 /* Status Colors */
@@ -153,22 +163,12 @@ select {
 .status-on-hold { background: #fee2e2; color: #991b1b; }
 
 /* Responsive Design */
-@media (max-width: 900px) {
+@media (max-width: 768px) {
     .project-grid {
-        grid-template-columns: 1fr; /* Single column on smaller screens */
+        grid-template-columns: 1fr;
     }
     
-    .filter-group {
-        flex-direction: column;
-    }
-    
-    .hero-stats {
-        grid-template-columns: 1fr 1fr;
-    }
-}
-
-@media (max-width: 600px) {
-    .hero-stats {
+    .metrics-grid {
         grid-template-columns: 1fr;
     }
 }
