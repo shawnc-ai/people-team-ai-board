@@ -39,6 +39,14 @@
             </div>
         </div>
 
+        <!-- Video Showcase Section -->
+        <div class="video-showcase">
+            <h2><i class="fas fa-video"></i> Project Demos</h2>
+            <div class="video-grid" id="videoGrid">
+                <!-- Videos will be dynamically inserted here -->
+            </div>
+        </div>
+
         <div class="dashboard">
             <div class="metrics-grid">
                 <div class="metric-card">
@@ -90,6 +98,15 @@
             <!-- Projects will be dynamically inserted here -->
         </div>
     </div>
+
+    <!-- Video Modal -->
+    <div id="videoModal" class="video-modal">
+        <span class="close-modal" onclick="closeVideoModal()">&times;</span>
+        <div class="video-modal-content" id="videoModalContent">
+            <!-- Video iframe will be inserted here -->
+        </div>
+    </div>
+
     <script src="app.js"></script>
 </body>
 </html>
