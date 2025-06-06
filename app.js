@@ -1,5 +1,36 @@
+// Initialize event listeners when the DOM is loaded
+document.addEventListener('DOMContentLoaded', function() {
+    // Load saved projects and initialize dashboard
+    loadSavedProjects();
+    
+    // Modal event listeners
+    const addButton = document.getElementById('addProjectBtn');
+    const closeButton = document.getElementById('closeModalBtn');
+    const cancelButton = document.getElementById('cancelBtn');
+    const modal = document.getElementById('addProjectModal');
+
+    // Add Project button click handler
+    addButton.addEventListener('click', openModal);
+
+    // Close button click handler
+    closeButton.addEventListener('click', closeModal);
+
+    // Cancel button click handler
+    cancelButton.addEventListener('click', closeModal);
+
+    // Close modal when clicking outside
+    window.addEventListener('click', function(event) {
+        if (event.target === modal) {
+            closeModal();
+        }
+    });
+
+    // Form submission handler
+    document.getElementById('addProjectForm').addEventListener('submit', handleFormSubmit);
+});
+
 // Project data
-const projects = [
+let projects = [
     {
         id: 1,
         name: "AI Interview Transcription",
@@ -82,29 +113,56 @@ const projects = [
     }
 ];
 
-// Initialize data when page loads
-document.addEventListener('DOMContentLoaded', () => {
-    loadSavedProjects();
-});
-
 // Modal Functions
 function openModal() {
-    document.getElementById('addProjectModal').style.display = 'block';
+    const modal = document.getElementById('addProjectModal');
+    modal.style.display = 'block';
     document.body.style.overflow = 'hidden'; // Prevent scrolling
 }
 
 function closeModal() {
-    document.getElementById('addProjectModal').style.display = 'none';
+    const modal = document.getElementById('addProjectModal');
+    modal.style.display = 'none';
     document.body.style.overflow = 'auto'; // Restore scrolling
     document.getElementById('addProjectForm').reset();
 }
 
-// Close modal when clicking outside
-window.onclick = function(event) {
-    const modal = document.getElementById('addProjectModal');
-    if (event.target == modal) {
-        closeModal();
-    }
+// Form submission handler
+function handleFormSubmit(e) {
+    e.preventDefault();
+    
+    const newProject = {
+        id: Date.now(),
+        name: document.getElementById('projectName').value,
+        status: document.getElementById('projectStatus').value,
+        domain: document.getElementById('projectDomain').value,
+        dsl: document.getElementById('projectDSL').value,
+        owner: document.getElementById('projectOwner').value,
+        team: document.getElementById('projectTeam').value,
+        description: document.getElementById('projectDescription').value,
+        hoursSaved: parseInt(document.getElementById('hoursSaved').value) || 0,
+        ticketsEliminated: parseInt(document.getElementById('ticketsEliminated').value) || 0,
+        processAutomation: parseInt(document.getElementById('processAutomation').value) || 0,
+        techStack: document.getElementById('techStack').value,
+        key_metrics: document.getElementById('keyMetrics').value
+    };
+
+    // Add to projects array
+    projects.unshift(newProject);
+
+    // Save to localStorage
+    localStorage.setItem('aiProjects', JSON.stringify(projects));
+
+    // Update display
+    renderProjects(projects);
+    updateDashboardMetrics(projects);
+    initializeCharts(projects);
+
+    // Close modal and reset form
+    closeModal();
+
+    // Show success message
+    showSuccess('Project added successfully!');
 }
 
 // Show success message
@@ -267,44 +325,6 @@ function initializeCharts(projectsData) {
     });
 }
 
-// Handle form submission
-document.getElementById('addProjectForm').addEventListener('submit', function(e) {
-    e.preventDefault();
-    
-    const newProject = {
-        id: Date.now(),
-        name: document.getElementById('projectName').value,
-        status: document.getElementById('projectStatus').value,
-        domain: document.getElementById('projectDomain').value,
-        dsl: document.getElementById('projectDSL').value,
-        owner: document.getElementById('projectOwner').value,
-        team: document.getElementById('projectTeam').value,
-        description: document.getElementById('projectDescription').value,
-        hoursSaved: parseInt(document.getElementById('hoursSaved').value) || 0,
-        ticketsEliminated: parseInt(document.getElementById('ticketsEliminated').value) || 0,
-        processAutomation: parseInt(document.getElementById('processAutomation').value) || 0,
-        techStack: document.getElementById('techStack').value,
-        key_metrics: document.getElementById('keyMetrics').value
-    };
-
-    // Add to projects array
-    projects.unshift(newProject);
-
-    // Save to localStorage
-    localStorage.setItem('aiProjects', JSON.stringify(projects));
-
-    // Update display
-    renderProjects(projects);
-    updateDashboardMetrics(projects);
-    initializeCharts(projects);
-
-    // Close modal and reset form
-    closeModal();
-
-    // Show success message
-    showSuccess('Project added successfully!');
-});
-
 function filterProjects() {
     const status = document.getElementById('statusFilter').value;
     const domain = document.getElementById('domainFilter').value;
@@ -326,7 +346,7 @@ function filterProjects() {
 function loadSavedProjects() {
     const saved = localStorage.getItem('aiProjects');
     if (saved) {
-        projects.splice(0, projects.length, ...JSON.parse(saved));
+        projects = JSON.parse(saved);
     }
     renderProjects(projects);
     updateDashboardMetrics(projects);
