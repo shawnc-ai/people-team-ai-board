@@ -32,6 +32,11 @@
                         <span class="metric-value" id="processesAutomated">0%</span>
                         <span class="metric-label">Processes Automated</span>
                     </div>
+                    <div class="metric-card">
+                        <i class="fas fa-tasks"></i>
+                        <span class="metric-value" id="categoryMetrics">0</span>
+                        <span class="metric-label">Projects by Category</span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -53,6 +58,10 @@
                 <div class="chart-card">
                     <h3>DSL Levels</h3>
                     <canvas id="dslChart"></canvas>
+                </div>
+                <div class="chart-card">
+                    <h3>Project Categories</h3>
+                    <canvas id="categoryChart"></canvas>
                 </div>
             </div>
         </div>
@@ -85,6 +94,12 @@
                             <option value="DSL3">DSL3</option>
                             <option value="DSL4">DSL4</option>
                         </select>
+                        <select id="categoryFilter" onchange="filterProjects()">
+                            <option value="">All Categories</option>
+                            <option value="Automation Operational Work">Automation Operational Work</option>
+                            <option value="Enable or Improve Self Service">Enable or Improve Self Service</option>
+                            <option value="Create Personalized Experiences">Create Personalized Experiences</option>
+                        </select>
                     </div>
                     <button class="add-project-btn" id="addProjectBtn">
                         <i class="fas fa-plus"></i> Add Project
@@ -98,11 +113,11 @@
         </div>
     </div>
 
-    <!-- Add Project Modal -->
+    <!-- Add/Edit Project Modal -->
     <div id="addProjectModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <h2>Add New AI Project</h2>
+                <h2 id="modalTitle">Add New AI Project</h2>
                 <button class="close-btn" id="closeModalBtn">&times;</button>
             </div>
             <form id="addProjectForm">
@@ -140,6 +155,15 @@
                             <option value="DSL2">DSL2</option>
                             <option value="DSL3">DSL3</option>
                             <option value="DSL4">DSL4</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="projectCategory">Category*</label>
+                        <select id="projectCategory" required>
+                            <option value="Automation Operational Work">Automation Operational Work</option>
+                            <option value="Enable or Improve Self Service">Enable or Improve Self Service</option>
+                            <option value="Create Personalized Experiences">Create Personalized Experiences</option>
                         </select>
                     </div>
 
