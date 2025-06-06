@@ -37,6 +37,7 @@ let projects = [
         status: "In Progress",
         domain: "Recruiting",
         dsl: "DSL3",
+        category: "Automation Operational Work",
         description: "AI-powered transcription and analysis of interview recordings",
         owner: "Sarah Johnson",
         team: "Recruiting Tech",
@@ -53,6 +54,7 @@ let projects = [
         status: "In Progress",
         domain: "ESS/MSS",
         dsl: "DSL2",
+        category: "Enable or Improve Self Service",
         description: "AI-powered assistant for employee and manager self-service",
         owner: "Michael Chen",
         team: "People Tech",
@@ -69,6 +71,7 @@ let projects = [
         status: "In Progress",
         domain: "Analytics",
         dsl: "DSL2",
+        category: "Create Personalized Experiences",
         description: "AI-driven insights for people analytics and reporting",
         owner: "Alex Rivera",
         team: "People Analytics",
@@ -85,6 +88,7 @@ let projects = [
         status: "Completed",
         domain: "Recruiting",
         dsl: "DSL4",
+        category: "Automation Operational Work",
         description: "Automated interview coordination and scheduling",
         owner: "Emily Wong",
         team: "Recruiting Ops",
@@ -101,6 +105,7 @@ let projects = [
         status: "In Progress",
         domain: "Knowledge Management",
         dsl: "DSL1",
+        category: "Create Personalized Experiences",
         description: "AI-assisted creation of learning and development content",
         owner: "David Kim",
         team: "L&D Tech",
@@ -117,26 +122,33 @@ let projects = [
 function openModal() {
     const modal = document.getElementById('addProjectModal');
     modal.style.display = 'block';
-    document.body.style.overflow = 'hidden'; // Prevent scrolling
+    document.body.style.overflow = 'hidden';
+    document.getElementById('modalTitle').textContent = 'Add New AI Project';
+    document.querySelector('.submit-btn').textContent = 'Add Project';
 }
 
 function closeModal() {
     const modal = document.getElementById('addProjectModal');
     modal.style.display = 'none';
-    document.body.style.overflow = 'auto'; // Restore scrolling
+    document.body.style.overflow = 'auto';
     document.getElementById('addProjectForm').reset();
+    document.getElementById('addProjectForm').removeAttribute('data-edit-id');
 }
 
 // Form submission handler
 function handleFormSubmit(e) {
     e.preventDefault();
     
-    const newProject = {
-        id: Date.now(),
+    const form = e.target;
+    const isEdit = form.dataset.editId;
+    
+    const projectData = {
+        id: isEdit ? parseInt(form.dataset.editId) : Date.now(),
         name: document.getElementById('projectName').value,
         status: document.getElementById('projectStatus').value,
         domain: document.getElementById('projectDomain').value,
         dsl: document.getElementById('projectDSL').value,
+        category: document.getElementById('projectCategory').value,
         owner: document.getElementById('projectOwner').value,
         team: document.getElementById('projectTeam').value,
         description: document.getElementById('projectDescription').value,
@@ -147,8 +159,16 @@ function handleFormSubmit(e) {
         key_metrics: document.getElementById('keyMetrics').value
     };
 
-    // Add to projects array
-    projects.unshift(newProject);
+    if (isEdit) {
+        // Update existing project
+        const index = projects.findIndex(p => p.id === parseInt(form.dataset.editId));
+        if (index !== -1) {
+            projects[index] = projectData;
+        }
+    } else {
+        // Add new project
+        projects.unshift(projectData);
+    }
 
     // Save to localStorage
     localStorage.setItem('aiProjects', JSON.stringify(projects));
@@ -162,7 +182,50 @@ function handleFormSubmit(e) {
     closeModal();
 
     // Show success message
-    showSuccess('Project added successfully!');
+    showSuccess(isEdit ? 'Project updated successfully!' : 'Project added successfully!');
+}
+
+// Edit project function
+function editProject(projectId) {
+    const project = projects.find(p => p.id === projectId);
+    if (!project) return;
+
+    // Update modal title
+    document.getElementById('modalTitle').textContent = 'Edit AI Project';
+    document.querySelector('.submit-btn').textContent = 'Update Project';
+
+    // Populate form with project data
+    document.getElementById('projectName').value = project.name;
+    document.getElementById('projectStatus').value = project.status;
+    document.getElementById('projectDomain').value = project.domain;
+    document.getElementById('projectDSL').value = project.dsl;
+    document.getElementById('projectCategory').value = project.category;
+    document.getElementById('projectOwner').value = project.owner;
+    document.getElementById('projectTeam').value = project.team;
+    document.getElementById('projectDescription').value = project.description;
+    document.getElementById('hoursSaved').value = project.hoursSaved;
+    document.getElementById('ticketsEliminated').value = project.ticketsEliminated;
+    document.getElementById('processAutomation').value = project.processAutomation;
+    document.getElementById('techStack').value = project.techStack;
+    document.getElementById('keyMetrics').value = project.key_metrics;
+
+    // Add project ID to form for update
+    document.getElementById('addProjectForm').dataset.editId = projectId;
+
+    // Open modal
+    openModal();
+}
+
+// Delete project function
+function deleteProject(projectId) {
+    if (confirm('Are you sure you want to delete this project?')) {
+        projects = projects.filter(p => p.id !== projectId);
+        localStorage.setItem('aiProjects', JSON.stringify(projects));
+        renderProjects(projects);
+        updateDashboardMetrics(projects);
+        initializeCharts(projects);
+        showSuccess('Project deleted successfully!');
+    }
 }
 
 // Show success message
@@ -189,12 +252,23 @@ function renderProjects(projectsData) {
         
         card.innerHTML = `
             <div class="card-header">
-                <span class="status-badge status-${statusClass}">${project.status}</span>
-                <span class="dsl-badge">${project.dsl}</span>
+                <div class="badge-container">
+                    <span class="status-badge status-${statusClass}">${project.status}</span>
+                    <span class="dsl-badge">${project.dsl}</span>
+                </div>
+                <div class="card-actions">
+                    <button onclick="editProject(${project.id})" class="edit-btn" title="Edit Project">
+                        <i class="fas fa-edit"></i>
+                    </button>
+                    <button onclick="deleteProject(${project.id})" class="delete-btn" title="Delete Project">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </div>
             </div>
-            <h3 class="project-title">${project.name}</h3>
+            <h3 class="project-title" onclick="editProject(${project.id})">${project.name}</h3>
             <div class="project-meta">
                 <p><strong>Domain:</strong> ${project.domain}</p>
+                <p><strong>Category:</strong> ${project.category}</p>
                 <p><strong>Owner:</strong> ${project.owner}</p>
                 <p><strong>Team:</strong> ${project.team}</p>
                 <p>${project.description}</p>
@@ -233,6 +307,22 @@ function updateDashboardMetrics(projectsData) {
         projectsData.reduce((sum, p) => sum + p.processAutomation, 0) / projectsData.length
     );
     document.getElementById('processesAutomated').textContent = `${avgAutomation}%`;
+
+    // Category metrics
+    const categoryData = {
+        'Automation Operational Work': 0,
+        'Enable or Improve Self Service': 0,
+        'Create Personalized Experiences': 0
+    };
+    
+    projectsData.forEach(p => {
+        if (categoryData.hasOwnProperty(p.category)) {
+            categoryData[p.category]++;
+        }
+    });
+
+    document.getElementById('categoryMetrics').textContent = 
+        Object.values(categoryData).reduce((sum, count) => sum + count, 0);
 }
 
 function initializeCharts(projectsData) {
@@ -323,18 +413,57 @@ function initializeCharts(projectsData) {
             }
         }
     });
+
+    // Category Chart
+    const categoryCtx = document.getElementById('categoryChart').getContext('2d');
+    const categoryData = {
+        'Automation Operational Work': 0,
+        'Enable or Improve Self Service': 0,
+        'Create Personalized Experiences': 0
+    };
+    
+    projectsData.forEach(p => {
+        if (categoryData.hasOwnProperty(p.category)) {
+            categoryData[p.category]++;
+        }
+    });
+
+    new Chart(categoryCtx, {
+        type: 'pie',
+        data: {
+            labels: Object.keys(categoryData),
+            datasets: [{
+                data: Object.values(categoryData),
+                backgroundColor: [
+                    '#60A5FA',
+                    '#34D399',
+                    '#F472B6'
+                ]
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'bottom'
+                }
+            }
+        }
+    });
 }
 
 function filterProjects() {
     const status = document.getElementById('statusFilter').value;
     const domain = document.getElementById('domainFilter').value;
     const dsl = document.getElementById('dslFilter').value;
+    const category = document.getElementById('categoryFilter').value;
 
     const filteredProjects = projects.filter(project => {
         const statusMatch = !status || project.status === status;
         const domainMatch = !domain || project.domain === domain;
         const dslMatch = !dsl || project.dsl === dsl;
-        return statusMatch && domainMatch && dslMatch;
+        const categoryMatch = !category || project.category === category;
+        return statusMatch && domainMatch && dslMatch && categoryMatch;
     });
 
     renderProjects(filteredProjects);
