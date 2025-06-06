@@ -86,7 +86,7 @@
                             <option value="DSL4">DSL4</option>
                         </select>
                     </div>
-                    <button onclick="openModal()" class="add-project-btn">
+                    <button class="add-project-btn" id="addProjectBtn">
                         <i class="fas fa-plus"></i> Add Project
                     </button>
                 </div>
@@ -103,7 +103,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h2>Add New AI Project</h2>
-                <button class="close-btn" onclick="closeModal()">&times;</button>
+                <button class="close-btn" id="closeModalBtn">&times;</button>
             </div>
             <form id="addProjectForm">
                 <div class="form-grid">
@@ -187,7 +187,7 @@
                 </div>
 
                 <div class="form-actions">
-                    <button type="button" class="cancel-btn" onclick="closeModal()">Cancel</button>
+                    <button type="button" class="cancel-btn" id="cancelBtn">Cancel</button>
                     <button type="submit" class="submit-btn">Add Project</button>
                 </div>
             </form>
