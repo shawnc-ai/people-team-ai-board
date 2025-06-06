@@ -190,6 +190,79 @@ select:hover {
     box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
 }
 
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+/* Card Actions */
+.card-actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.edit-btn,
+.delete-btn {
+    background: none;
+    border: none;
+    padding: 0.25rem;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.edit-btn {
+    color: var(--primary-color);
+}
+
+.delete-btn {
+    color: var(--error-color);
+}
+
+.edit-btn:hover {
+    color: var(--accent-blue);
+}
+
+.delete-btn:hover {
+    color: #B91C1C;
+}
+
+.project-title {
+    cursor: pointer;
+    transition: color 0.3s ease;
+    font-size: 1.25rem;
+    margin: 1rem 0;
+    color: var(--primary-color);
+}
+
+.project-title:hover {
+    color: var(--accent-blue);
+    text-decoration: underline;
+}
+
+/* Status Badges */
+.status-badge {
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+.status-not-started { background: #F3F4F6; color: #374151; }
+.status-in-progress { background: #FEF3C7; color: #92400E; }
+.status-completed { background: #D1FAE5; color: #065F46; }
+.status-on-hold { background: #FEE2E2; color: #991B1B; }
+
+.dsl-badge {
+    background: #E0E7FF;
+    color: #3730A3;
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
 /* Modal Styles */
 .modal {
     display: none;
@@ -328,28 +401,6 @@ select:hover {
 
 .cancel-btn:hover {
     background: #E5E7EB;
-}
-
-/* Status Badges */
-.status-badge {
-    padding: 0.25rem 0.75rem;
-    border-radius: 20px;
-    font-size: 0.8rem;
-    font-weight: 500;
-}
-
-.status-not-started { background: #F3F4F6; color: #374151; }
-.status-in-progress { background: #FEF3C7; color: #92400E; }
-.status-completed { background: #D1FAE5; color: #065F46; }
-.status-on-hold { background: #FEE2E2; color: #991B1B; }
-
-.dsl-badge {
-    background: #E0E7FF;
-    color: #3730A3;
-    padding: 0.25rem 0.75rem;
-    border-radius: 20px;
-    font-size: 0.8rem;
-    font-weight: 500;
 }
 
 /* Success Message */
