@@ -32,15 +32,92 @@ const projects = [
         techStack: "GPT-4, Goose",
         key_metrics: "75% reduction in basic HR inquiries"
     },
-    // Add other projects here
+    {
+        id: 3,
+        name: "AI Analytics",
+        status: "In Progress",
+        domain: "Analytics",
+        dsl: "DSL2",
+        description: "AI-driven insights for people analytics and reporting",
+        owner: "Alex Rivera",
+        team: "People Analytics",
+        hoursSaved: 80,
+        ticketsEliminated: 25,
+        processAutomation: 40,
+        impact: "Medium",
+        techStack: "Python, TensorFlow",
+        key_metrics: "40% faster report generation"
+    },
+    {
+        id: 4,
+        name: "Interview Scheduling",
+        status: "Completed",
+        domain: "Recruiting",
+        dsl: "DSL4",
+        description: "Automated interview coordination and scheduling",
+        owner: "Emily Wong",
+        team: "Recruiting Ops",
+        hoursSaved: 160,
+        ticketsEliminated: 200,
+        processAutomation: 90,
+        impact: "High",
+        techStack: "Custom AI, Calendar API",
+        key_metrics: "85% reduction in scheduling time"
+    },
+    {
+        id: 5,
+        name: "Learning Content Creation",
+        status: "In Progress",
+        domain: "Knowledge Management",
+        dsl: "DSL1",
+        description: "AI-assisted creation of learning and development content",
+        owner: "David Kim",
+        team: "L&D Tech",
+        hoursSaved: 100,
+        ticketsEliminated: 30,
+        processAutomation: 50,
+        impact: "Medium",
+        techStack: "GPT-4, Custom Tools",
+        key_metrics: "60% faster content creation"
+    }
 ];
 
 // Initialize data when page loads
 document.addEventListener('DOMContentLoaded', () => {
-    renderProjects(projects);
-    updateDashboardMetrics(projects);
-    initializeCharts(projects);
+    loadSavedProjects();
 });
+
+// Modal Functions
+function openModal() {
+    document.getElementById('addProjectModal').style.display = 'block';
+    document.body.style.overflow = 'hidden'; // Prevent scrolling
+}
+
+function closeModal() {
+    document.getElementById('addProjectModal').style.display = 'none';
+    document.body.style.overflow = 'auto'; // Restore scrolling
+    document.getElementById('addProjectForm').reset();
+}
+
+// Close modal when clicking outside
+window.onclick = function(event) {
+    const modal = document.getElementById('addProjectModal');
+    if (event.target == modal) {
+        closeModal();
+    }
+}
+
+// Show success message
+function showSuccess(message) {
+    const successDiv = document.createElement('div');
+    successDiv.className = 'success-message';
+    successDiv.textContent = message;
+    document.body.appendChild(successDiv);
+
+    setTimeout(() => {
+        successDiv.remove();
+    }, 3000);
+}
 
 function renderProjects(projectsData) {
     const grid = document.getElementById('projectsGrid');
@@ -89,7 +166,6 @@ function renderProjects(projectsData) {
 }
 
 function updateDashboardMetrics(projectsData) {
-    // Update summary metrics
     document.getElementById('totalProjects').textContent = projectsData.length;
     
     const totalHours = projectsData.reduce((sum, p) => sum + p.hoursSaved, 0);
@@ -191,6 +267,44 @@ function initializeCharts(projectsData) {
     });
 }
 
+// Handle form submission
+document.getElementById('addProjectForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const newProject = {
+        id: Date.now(),
+        name: document.getElementById('projectName').value,
+        status: document.getElementById('projectStatus').value,
+        domain: document.getElementById('projectDomain').value,
+        dsl: document.getElementById('projectDSL').value,
+        owner: document.getElementById('projectOwner').value,
+        team: document.getElementById('projectTeam').value,
+        description: document.getElementById('projectDescription').value,
+        hoursSaved: parseInt(document.getElementById('hoursSaved').value) || 0,
+        ticketsEliminated: parseInt(document.getElementById('ticketsEliminated').value) || 0,
+        processAutomation: parseInt(document.getElementById('processAutomation').value) || 0,
+        techStack: document.getElementById('techStack').value,
+        key_metrics: document.getElementById('keyMetrics').value
+    };
+
+    // Add to projects array
+    projects.unshift(newProject);
+
+    // Save to localStorage
+    localStorage.setItem('aiProjects', JSON.stringify(projects));
+
+    // Update display
+    renderProjects(projects);
+    updateDashboardMetrics(projects);
+    initializeCharts(projects);
+
+    // Close modal and reset form
+    closeModal();
+
+    // Show success message
+    showSuccess('Project added successfully!');
+});
+
 function filterProjects() {
     const status = document.getElementById('statusFilter').value;
     const domain = document.getElementById('domainFilter').value;
@@ -206,4 +320,15 @@ function filterProjects() {
     renderProjects(filteredProjects);
     updateDashboardMetrics(filteredProjects);
     initializeCharts(filteredProjects);
+}
+
+// Load saved projects from localStorage
+function loadSavedProjects() {
+    const saved = localStorage.getItem('aiProjects');
+    if (saved) {
+        projects.splice(0, projects.length, ...JSON.parse(saved));
+    }
+    renderProjects(projects);
+    updateDashboardMetrics(projects);
+    initializeCharts(projects);
 }
